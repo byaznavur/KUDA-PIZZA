@@ -2,10 +2,11 @@ import PropTypes from "prop-types";
 import { Card } from "react-bootstrap";
 import { ProductContext } from "../../context/cart";
 import { useContext } from "react";
+import Buttons from "../buttons";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Pizza = ({ name, image, description, price, filter, id }) => {
-  const { addToCart, cart, incQuantity, decQuantity } =
-    useContext(ProductContext);
+  const { addToCart, cart } = useContext(ProductContext);
   console.log(cart);
 
   let productInCart = cart.find((pr) => pr.id === id);
@@ -17,27 +18,21 @@ const Pizza = ({ name, image, description, price, filter, id }) => {
       >
         {filter}
       </span>
-      <Card.Img variant="top" src={image} />
+      <LazyLoadImage
+        effect="blur"
+        variant="top"
+        className="card-img-top"
+        wrapperProps={{
+          style: { transitionDelay: "1s" },
+        }}
+        src={image}
+      />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Card.Text>{description}</Card.Text>
         <div className="d-flex align-items-center justify-content-between">
           {productInCart ? (
-            <div>
-              <button
-                onClick={() => decQuantity(id)}
-                className="btn btn-primary"
-              >
-                -
-              </button>
-              <span className="btn btn-light">{productInCart.quantity}</span>
-              <button
-                onClick={() => incQuantity(id)}
-                className="btn btn-primary"
-              >
-                +
-              </button>
-            </div>
+            <Buttons id={id} quantity={productInCart.quantity} />
           ) : (
             <button
               onClick={() => addToCart(id)}
@@ -62,5 +57,4 @@ Pizza.propTypes = {
   description: PropTypes.string,
   price: PropTypes.string,
 };
-
 export default Pizza;

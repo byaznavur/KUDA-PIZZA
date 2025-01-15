@@ -17,12 +17,7 @@ const ProductProvider = ({ children }) => {
     let newCart;
 
     if (productInCart) {
-      newCart = cart.map((product) => {
-        if (product.id === id) {
-          product.quantity++;
-        }
-        return product;
-      });
+      newCart = controlQuantity(id, "+");
     } else {
       product.quantity = 1;
 
@@ -32,14 +27,18 @@ const ProductProvider = ({ children }) => {
     setCart(newCart);
     localStorage.setItem(CART, JSON.stringify(newCart));
   };
-
-  const incQuantity = (id) => {
-    const newCart = cart.map((product) => {
+  const controlQuantity = (id, sign) => {
+    let res = cart.map((product) => {
       if (product.id === id) {
-        product.quantity++;
+        sign === "+" ? product.quantity++ : product.quantity--;
       }
       return product;
     });
+    return res;
+  };
+
+  const incQuantity = (id) => {
+    const newCart = controlQuantity(id, "+");
     setCart(newCart);
     localStorage.setItem(CART, JSON.stringify(newCart));
   };
@@ -47,19 +46,19 @@ const ProductProvider = ({ children }) => {
     let newCart;
     const productInCart = cart.find((pr) => pr.id === id);
     if (productInCart.quantity > 1) {
-      newCart = cart.map((product) => {
-        if (product.id === id) {
-          product.quantity--;
-        }
-        return product;
-      });
+      newCart = controlQuantity(id, "-");
     } else {
       newCart = cart.filter((pr) => pr.id !== id);
     }
     setCart(newCart);
     localStorage.setItem(CART, JSON.stringify(newCart));
   };
-  const state = { cart, addToCart, incQuantity, decQuantity };
+
+  let sumProductInCart = cart.reduce(
+    (acc, pr) => acc + pr.price * pr.quantity,
+    0
+  );
+  const state = { cart, addToCart, incQuantity, decQuantity, sumProductInCart };
   return (
     <ProductContext.Provider value={state}>{children}</ProductContext.Provider>
   );
