@@ -11,7 +11,10 @@ const Pizza = ({ name, image, description, price, filter, id }) => {
 
   let productInCart = cart.find((pr) => pr.id === id);
   return (
-    <Card style={{ width: "18rem", position: "relative" }} className="mb-3">
+    <Card
+      style={{ width: "18rem", position: "relative" }}
+      className="mb-3 mx-auto"
+    >
       <span
         style={{ position: "absolute", width: "65px", top: "20px" }}
         className="badge bg-danger"

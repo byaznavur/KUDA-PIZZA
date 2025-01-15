@@ -32,11 +32,11 @@ const Home = () => {
       <section className="pizza">
         <h2>Пицца</h2>
 
-        <div className="pizzaHerro row">
+        <div className="pizzaHerro row mx-auto">
           {pizzaProduct.map((product, i) => (
             <div
               key={i}
-              className="d-flex gap-3 col-12 col-sm-6 col-md-4 col-lg-3"
+              className="mx-auto d-flex gap-3 col-12 col-sm-6 col-md-4 col-lg-3"
             >
               <Pizza {...product} />
             </div>

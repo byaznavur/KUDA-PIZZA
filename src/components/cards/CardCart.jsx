@@ -12,7 +12,7 @@ const CardCart = ({
   id,
 }) => {
   return (
-    <div className="card mb-4 shadow-sm" style={{ width: "18rem" }}>
+    <div className="card mx-auto mb-4 shadow-sm" style={{ width: "18rem" }}>
       <LazyLoadImage
         effect="blur"
         wrapperProps={{
